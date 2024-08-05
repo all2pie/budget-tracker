@@ -6,8 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { UserId } from 'src/common/decorators/user.decorator';
 import { Role } from 'src/common/types/user-type.enum';
@@ -29,14 +30,14 @@ export class ExpenseController {
 
   @Roles(Role.User)
   @Get()
-  getAll(@UserId() userId: string) {
-    return this.service.getAll(userId);
+  getAll(@Query() query, @UserId() userId: string) {
+    return this.service.getAll(query, userId);
   }
 
   @Roles(Role.Admin)
   @Get('allUsersExpenses')
-  getAllForAdmin() {
-    // TODO
+  getAllForAdmin(@Query() query: Record<string, string>) {
+    return this.service.getAll(query);
   }
 
   @Roles(Role.User)

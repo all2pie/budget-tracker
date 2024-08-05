@@ -6,6 +6,7 @@ import { AddExpenseDto } from './dto/add-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { NotificationService } from 'src/notification/notification.service';
 import { NotificationType } from 'src/notification/notification-type.enum';
+import aqp from 'api-query-params';
 
 @Injectable()
 export class ExpenseService {
@@ -18,10 +19,14 @@ export class ExpenseService {
     return this.model.findById(id).orFail(new NotFoundException('Invalid id'));
   }
 
-  getAll(userId: string) {
-    return this.model.find({
-      userId,
-    });
+  getAll(query, userId?: string) {
+    const mongoQuery = aqp(query);
+
+    const conditions = mongoQuery.filter;
+
+    if (userId) conditions['userId'] = userId;
+
+    return this.model.find(conditions, null, { sort: mongoQuery.sort });
   }
 
   async add(data: AddExpenseDto, userId: string) {
