@@ -36,3 +36,7 @@
 | class-validator | For handling validations       |
 | swagger         | For creating API documentation |
 | jwt             | For handling json web tokens   |
+
+## Future Improvements
+
+* Add config service and use environment variables

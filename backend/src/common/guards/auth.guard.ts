@@ -28,7 +28,11 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
 
-    const token = this.extractTokenFromHeader(request);
+    const headerToken = this.extractTokenFromHeader(request);
+    const cookieToken = this.extractTokenFromCookie(request);
+
+    const token = cookieToken || headerToken;
+
     if (!token) {
       throw new UnauthorizedException('Missing JWT');
     }
@@ -48,5 +52,10 @@ export class AuthGuard implements CanActivate {
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
+  }
+
+  private extractTokenFromCookie(request: Request): string | undefined {
+    const tokens = request.cookies.tokens;
+    return tokens ? tokens.accessToken : undefined;
   }
 }

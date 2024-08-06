@@ -1,9 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { Public } from 'src/common/decorators/public-decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @Public()
 @ApiTags('Auth')
@@ -17,7 +18,20 @@ export class AuthController {
   }
 
   @Post('signIn')
-  signIn(@Body() data: SignInDto) {
-    return this.service.signIn(data);
+  async signIn(
+    @Body() data: SignInDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const tokens = await this.service.signIn(data);
+
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 1);
+
+    res.cookie('tokens', tokens, {
+      httpOnly: true,
+      expires: expiry,
+    });
+
+    return tokens;
   }
 }
