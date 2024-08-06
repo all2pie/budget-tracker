@@ -1,0 +1,40 @@
+<div class="container" [class.is-mobile]="isMobile">
+  <div class="side-nav" [class.isNavClosed]="!isNavOpen">
+    <div class="branding">
+      <img src="logo.svg" alt="logo" />
+      <div *ngIf="isNavOpen">Budget Tracker</div>
+    </div>
+
+    <div class="nav-items">
+      @for (nav of navItems; track nav.name) {
+
+      <a
+        [routerLink]="nav?.link"
+        routerLinkActive="active"
+        class="item"
+        (click)="nav.action ? nav.action() : null"
+      >
+        <mat-icon [fontIcon]="nav.icon"></mat-icon>
+        <span *ngIf="isNavOpen">{{ nav.name }}</span>
+      </a>
+      }
+    </div>
+  </div>
+
+  <div class="content">
+    <mat-toolbar class="toolbar">
+      <button mat-icon-button (click)="toggleSideNav()">
+        <mat-icon>sort</mat-icon>
+      </button>
+
+      <span class="spacer"></span>
+
+      <div class="icons">
+        <mat-icon fontIcon="notifications"></mat-icon>
+        <mat-icon fontIcon="account_circle"></mat-icon>
+      </div>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
