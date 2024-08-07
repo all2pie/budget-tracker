@@ -1,0 +1,11 @@
+<div class="header">
+  <div class="title">
+    {{ title }}
+  </div>
+
+  <div class="actions" *ngIf="buttonLabel">
+    <button mat-flat-button extended (click)="buttonClicked.emit()">
+      {{ buttonLabel }}
+    </button>
+  </div>
+</div>

@@ -12,6 +12,11 @@ export const routes: Routes = [
         path: 'expenses',
         component: ExpensesComponent,
       },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'expenses',
+      },
     ],
     canActivate: [AuthGuard],
   },

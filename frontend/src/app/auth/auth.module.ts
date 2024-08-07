@@ -8,9 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { RouterModule } from '@angular/router';
 import { routes } from './auth.routes';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, SignUpComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -20,6 +21,6 @@ import { routes } from './auth.routes';
     RouterModule.forChild(routes),
   ],
   exports: [],
-  providers: [AuthService],
+  providers: [],
 })
 export class AuthModule {}

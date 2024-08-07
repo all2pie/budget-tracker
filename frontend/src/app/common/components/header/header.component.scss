@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dde4f0;
+  margin-bottom: 22px;
+
+  .title {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 48px;
+    color: #2b2b2b;
+  }
+}

@@ -5,8 +5,8 @@
       <div>Budget Tracker</div>
     </div>
 
-    <div class="title">Sign Up</div>
-    <div class="subTitle">Welcome to our community</div>
+    <div class="title">Welcome Back!</div>
+    <div class="subTitle">Sign in to continue to Budget Tracker</div>
 
     <form [formGroup]="form">
       <div>
@@ -24,16 +24,16 @@
       </div>
 
       <button mat-flat-button [disabled]="form.invalid" (click)="handleLogin()">
-        LOG IN
+        SIGN Up
       </button>
 
       <div class="alternateAction">
-        Don't have an account? <a routerLink="/auth/signUp">Sign Up</a>
+        Already have an account? <a routerLink="/auth/login">Log in</a>
       </div>
     </form>
   </div>
 
   <div class="line"></div>
 
-  <img src="login.png" alt="illustration" class="right" />
+  <img src="signUp.png" alt="illustration" class="right" />
 </div>

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
@@ -33,5 +33,17 @@ export class AuthController {
     });
 
     return tokens;
+  }
+
+  @Get('logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.cookie('tokens', '', {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+
+    return {
+      success: true,
+    };
   }
 }
