@@ -11,8 +11,6 @@ export class UserService extends BaseService {
 
   constructor(private router: Router, private authService: AuthService) {
     super();
-
-    this.setUserProfile();
   }
 
   async setUserProfile() {
@@ -46,6 +44,10 @@ export class UserService extends BaseService {
 
   updateUserProfile(id: string, data: Partial<User>) {
     return this.patch<User>(id, data);
+  }
+
+  updateProfile(data: Partial<User>) {
+    return this.patch<User>('', data);
   }
 
   deleteUser(id: string) {

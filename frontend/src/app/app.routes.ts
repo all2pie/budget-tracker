@@ -5,8 +5,13 @@ import { ExpensesComponent } from './expense/expenses/expenses.component';
 import { AnalysisComponent } from './analysis/analysis.component';
 import { UsersComponent } from './user/users/users.component';
 import { Role } from './common/types/user.interface';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
+  {
+    path: 'profile',
+    component: ProfileComponent,
+  },
   {
     path: '',
     component: HomeComponent,

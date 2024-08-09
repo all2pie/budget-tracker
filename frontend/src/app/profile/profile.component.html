@@ -1,3 +1,159 @@
-<p>
-  profile works!
-</p>
+<app-toolbar mode="full"></app-toolbar>
+
+<div class="wrapper">
+  <div class="header">
+    <div class="back" routerLink="..">
+      <mat-icon>arrow_back</mat-icon>
+      Profile
+    </div>
+
+    <div class="actions">
+      <div
+        [class.active]="activeTab === 'profile'"
+        (click)="activeTab = 'profile'"
+      >
+        Profile
+      </div>
+
+      <div
+        [class.active]="activeTab === 'account'"
+        (click)="activeTab = 'account'"
+      >
+        My Account
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="card left">
+      <div class="card-content">
+        <div class="identifiers">
+          <img src="avatar-big.png" alt="avatar" />
+          <div class="name">{{ user.firstName + " " + user.lastName }}</div>
+          <div class="title">Project Manager</div>
+        </div>
+
+        <div class="details">
+          <div class="aaa">
+            <mat-icon>phone</mat-icon>
+            (684) 555-0102
+          </div>
+
+          <div class="aaa">
+            <mat-icon>mail</mat-icon>
+            {{ user.email }}
+          </div>
+
+          <div class="aaa">
+            <mat-icon>location_on</mat-icon>
+            New York
+          </div>
+
+          <div class="aaa">
+            <mat-icon>link</mat-icon>
+            www.website.com
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="card" *ngIf="activeTab === 'profile'">
+        <div class="card-title">About Me</div>
+        <div class="card-content">
+          <div class="intro">
+            Passionate UI/UX designer with over 5 years of experience in
+            creating user-friendly and visually appealing digital experiences.
+            Skilled in wireframing, prototyping, and user research to deliver
+            intuitive designs. Committed to enhancing user satisfaction through
+            innovative and effective design solutions.
+          </div>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="activeTab === 'profile'">
+        <div class="card-title">Personal Details</div>
+
+        <div class="card-content personalDetails">
+          <div class="detial">
+            <div class="label">Full Name</div>
+            <div class="value">{{ user.firstName + " " + user.lastName }}</div>
+          </div>
+          <div class="detial">
+            <div class="label">Father Name</div>
+            <div class="value">Adam</div>
+          </div>
+          <div class="detial">
+            <div class="label">Gender</div>
+            <div class="value">Male</div>
+          </div>
+          <div class="detial">
+            <div class="label">Phone</div>
+            <div class="value">(684) 555-0102</div>
+          </div>
+          <div class="detial">
+            <div class="label">Email</div>
+            <div class="value">{{ user.email }}</div>
+          </div>
+          <div class="detial">
+            <div class="label">Zip Code</div>
+            <div class="value">123455</div>
+          </div>
+          <div class="detial">
+            <div class="label">Education</div>
+            <div class="value">Master</div>
+          </div>
+          <div class="detial">
+            <div class="label">Date of Birth</div>
+            <div class="value">26 Oct 2019</div>
+          </div>
+          <div class="detial">
+            <div class="label">Address</div>
+            <div class="value">4140 parker Rd. Allentown, New Mexico 31134</div>
+          </div>
+          <div class="detial">
+            <div class="label">Budget Limit</div>
+            <div class="value">{{ user.budget }} PKR</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="activeTab === 'account'">
+        <div class="card-title">My Account</div>
+
+        <div class="card-content">
+          <form [formGroup]="fg">
+            <mat-form-field>
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName" type="text" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName" type="text" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Budget Limit(PKR)</mat-label>
+              <input matInput formControlName="budget" type="number" />
+            </mat-form-field>
+
+            <div class="buttons">
+              <button
+                mat-flat-button
+                [disabled]="fg.invalid"
+                (click)="handleProfileUpdate()"
+              >
+                Update
+              </button>
+
+              <button mat-stroked-button (click)="handleCancelUpdate()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

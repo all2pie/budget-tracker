@@ -1,0 +1,73 @@
+<mat-toolbar class="toolbar">
+  @if(mode === 'full'){
+  <div class="branding">
+    <img src="logo.svg" alt="logo" />
+    <div>Budget Tracker</div>
+  </div>
+  } @else {
+  <button mat-icon-button (click)="this.buttonClicked.emit()">
+    <mat-icon>sort</mat-icon>
+  </button>
+  }
+
+  <div class="icons">
+    <button
+      mat-icon-button
+      [matBadge]="unReadNotifications"
+      (click)="toggleNotificationsDropdown(); $event.stopPropagation()"
+    >
+      <mat-icon>notifications</mat-icon>
+    </button>
+
+    <img
+      src="avatar.png"
+      alt="Avatar"
+      (click)="toggleProfileDropdown(); $event.stopPropagation()"
+    />
+  </div>
+</mat-toolbar>
+
+<div class="profile-dropdown" *ngIf="isProfileOpen" #profileDropdown>
+  <div class="details">
+    <img src="avatar.png" alt="Avatar" />
+
+    <div class="text">
+      <div class="name">{{ user.firstName + " " + user.lastName }}</div>
+      <div class="email">{{ user.email }}</div>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="actions">
+    <button mat-button routerLink="/profile">
+      <mat-icon>account_circle</mat-icon>
+      Profile
+    </button>
+
+    <button mat-button (click)="handleLogout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </div>
+</div>
+
+<div class="notifications" *ngIf="isNotificationsOpen" #notificationsDropdown>
+  <div
+    *ngFor="let noti of notifications"
+    class="notification"
+    (click)="noti.isRead ? null : readNotification(noti.id)"
+  >
+    <div
+      class="icon"
+      [style.backgroundColor]="notificationStyles[noti.type].color"
+    >
+      <mat-icon>{{ notificationStyles[noti.type].icon }}</mat-icon>
+    </div>
+    <div>
+      <div class="title">{{ noti.title }}</div>
+      <div class="subTitle">{{ noti.type }} successfully</div>
+      <div class="time">{{ noti.date | date }}</div>
+    </div>
+  </div>
+</div>

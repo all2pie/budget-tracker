@@ -1,15 +1,15 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { isAdmin, user } from '../common/state/user.state';
 import { UserService } from '../auth/user.service';
-import { CommonModule } from '@angular/common';
-import { User } from '../common/types/user.interface';
+import { ToolbarComponent } from '../common/components/toolbar/toolbar.component';
+import { isAdmin } from '../common/state/user.state';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +24,7 @@ import { User } from '../common/types/user.interface';
     RouterModule,
     MatButtonModule,
     CommonModule,
+    ToolbarComponent,
   ],
 })
 export class HomeComponent {
@@ -31,8 +32,6 @@ export class HomeComponent {
   private _mobileQueryListener: () => void;
   isMobile: boolean;
   isNavOpen = true;
-  isProfileOpen = false;
-  user = user() as User;
 
   navItems: {
     icon: string;
@@ -85,10 +84,6 @@ export class HomeComponent {
 
   toggleSideNav() {
     this.isNavOpen = !this.isNavOpen;
-  }
-
-  toggleProfile() {
-    this.isProfileOpen = !this.isProfileOpen;
   }
 
   ngOnDestroy() {
