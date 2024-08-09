@@ -1,0 +1,26 @@
+<app-header title="Analysis"></app-header>
+
+<div class="widget">
+  <div class="toolbar">
+    <div class="name">Expenses</div>
+
+    <mat-form-field>
+      <mat-label>Range</mat-label>
+      <mat-select>
+        <mat-option value="lastMonth">Last Month</mat-option>
+        <mat-option value="last6Months">Last 6 Months</mat-option>
+        <mat-option value="last12Months">Last 12 Months</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <ngx-charts-line-chart
+    [animations]="true"
+    [legend]="true"
+    legendTitle=""
+    [yAxis]="true"
+    [xAxis]="true"
+    [results]="data"
+  >
+  </ngx-charts-line-chart>
+</div>

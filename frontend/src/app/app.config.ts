@@ -8,6 +8,7 @@ import {
   withFetch,
   withXsrfConfiguration,
 } from '@angular/common/http';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
+    provideNativeDateAdapter(),
   ],
 };

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserId } from 'src/common/decorators/user.decorator';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -17,15 +17,21 @@ export class ProfileController {
     return this.service.getProfile(userId);
   }
 
-  @Patch()
-  updateMyProfile(@Body() data: UpdateProfileDto, @UserId() userId: string) {
-    return this.service.updateProfile(userId, data);
-  }
-
   @Roles(Role.Admin)
   @Get('allUsers')
   getAllUsers() {
     return this.service.getAllUsers();
+  }
+
+  @Roles(Role.Admin)
+  @Get(':id')
+  getUserProfile(@Param('id') userId: string) {
+    return this.service.getProfile(userId);
+  }
+
+  @Patch()
+  updateMyProfile(@Body() data: UpdateProfileDto, @UserId() userId: string) {
+    return this.service.updateProfile(userId, data);
   }
 
   @Roles(Role.Admin)
@@ -35,5 +41,10 @@ export class ProfileController {
     @Param('id') userId: string,
   ) {
     return this.service.updateProfile(userId, data);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') userId: string) {
+    return this.service.deleteUser(userId);
   }
 }

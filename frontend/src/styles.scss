@@ -16,6 +16,8 @@
 :root {
   @include mat.all-component-themes($light-theme);
   --mdc-filled-button-container-shape: 4px;
+  --mdc-outlined-button-container-shape: 4px;
+  --mdc-dialog-container-shape: 8px;
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
@@ -47,6 +49,13 @@ a {
   box-shadow: 0px 4px 14px 0px #00000014;
 }
 
-// .material-symbols-outlined {
-//   font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 24;
-// }
+.form-fields {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+ngx-charts-bar-vertical .x-axis .tick line {
+  display: none;
+}

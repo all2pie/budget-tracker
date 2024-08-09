@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <div class="title">{{ isUpdateMode ? "Edit" : "Delete" }} User</div>
+
+  <form [formGroup]="fg">
+    <div class="form-fields">
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" type="text" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" type="text" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Budget Limit(PKR)</mat-label>
+      <input matInput formControlName="budget" type="number" />
+    </mat-form-field>
+
+    <div class="buttons">
+      <button mat-stroked-button (click)="close()">Cancel</button>
+      <button mat-flat-button [disabled]="fg.invalid" (click)="handleAction()">
+        {{ isUpdateMode ? "Save Changes" : "Delete" }}
+      </button>
+    </div>
+  </form>
+</div>

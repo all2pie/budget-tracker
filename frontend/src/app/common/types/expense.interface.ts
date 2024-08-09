@@ -1,4 +1,6 @@
 export interface Expense {
+  id: string;
+
   title: string;
 
   userId: string;

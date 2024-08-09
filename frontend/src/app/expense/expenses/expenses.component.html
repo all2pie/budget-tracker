@@ -1,6 +1,6 @@
 <app-header
   title="Expenses"
-  buttonLabel="Add Expenses"
+  [buttonLabel]="isAdmin ? '' : 'Add Expenses'"
   (buttonClicked)="openAddExpenseDialogue()"
 ></app-header>
 
@@ -27,11 +27,19 @@
     <th mat-header-cell *matHeaderCellDef>Date</th>
     <td mat-cell *matCellDef="let row">{{ row.date | date }}</td>
   </ng-container>
+  <ng-container matColumnDef="user">
+    <th mat-header-cell *matHeaderCellDef>User</th>
+    <td mat-cell *matCellDef="let row">
+      {{ row.userId.firstName + " " + row.userId.lastName }}
+    </td>
+  </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let row">
-      <button mat-icon-button><mat-icon>delete_outline</mat-icon></button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="openDeleteExpenseDialogue(row.id)">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+      <button mat-icon-button (click)="openEditExpenseDialogue(row.id)">
         <mat-icon>edit_outline</mat-icon>
       </button>
     </td>

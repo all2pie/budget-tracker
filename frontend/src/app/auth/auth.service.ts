@@ -9,6 +9,16 @@ export class AuthService extends BaseService {
     return this.post<{ accessToken: string }>('signIn', data);
   }
 
+  signUp(data: {
+    email: string;
+    password: string;
+    budget: number;
+    firstName: string;
+    lastName: string;
+  }) {
+    return this.post<{ success: boolean }>('signUp', data);
+  }
+
   logout() {
     return this.get('logout');
   }

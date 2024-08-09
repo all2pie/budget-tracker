@@ -7,6 +7,7 @@ import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { NotificationService } from 'src/notification/notification.service';
 import { NotificationType } from 'src/notification/notification-type.enum';
 import aqp from 'api-query-params';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class ExpenseService {
@@ -26,7 +27,15 @@ export class ExpenseService {
 
     if (userId) conditions['userId'] = userId;
 
-    return this.model.find(conditions, null, { sort: mongoQuery.sort });
+    const dbQuery = this.model.find(conditions, null, {
+      sort: mongoQuery.sort,
+    });
+
+    if (!userId) {
+      dbQuery.populate('userId');
+    }
+
+    return dbQuery;
   }
 
   async add(data: AddExpenseDto, userId: string) {
@@ -69,5 +78,14 @@ export class ExpenseService {
     return {
       id: doc.id,
     };
+  }
+
+  @OnEvent('userDeleted')
+  handleUserDeleted(userId: string) {
+    this.model
+      .deleteMany({
+        userId,
+      })
+      .exec();
   }
 }

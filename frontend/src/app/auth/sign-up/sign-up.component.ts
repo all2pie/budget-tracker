@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,21 +21,49 @@ export class SignUpComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private service: AuthService,
-    private userService: UserService
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-    });
+    this.form = this.formBuilder.group(
+      {
+        firstName: ['', [Validators.required]],
+        lastName: ['', [Validators.required]],
+        budget: [null, [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+      },
+      {
+        validators: [matchPasswordValidator()],
+      }
+    );
   }
 
-  async handleLogin() {
-    const res = await this.service.login(this.form.value);
+  async handleSignup() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    const res = await this.service.signUp(this.form.value);
 
     if (res) {
-      await this.userService.setUserProfile();
+      this.router.navigate(['/auth/login']);
     }
   }
+}
+
+export function matchPasswordValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    const doseMatch = password === confirmPassword;
+
+    if (doseMatch) {
+      return null;
+    } else {
+      control.get('confirmPassword')?.setErrors({ unMatchingPasswords: true });
+      return { unMatchingPasswords: true };
+    }
+  };
 }

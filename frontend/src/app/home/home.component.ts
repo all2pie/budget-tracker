@@ -6,9 +6,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { isAdmin } from '../common/state/user.state';
+import { isAdmin, user } from '../common/state/user.state';
 import { UserService } from '../auth/user.service';
 import { CommonModule } from '@angular/common';
+import { User } from '../common/types/user.interface';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +31,8 @@ export class HomeComponent {
   private _mobileQueryListener: () => void;
   isMobile: boolean;
   isNavOpen = true;
+  isProfileOpen = false;
+  user = user() as User;
 
   navItems: {
     icon: string;
@@ -37,6 +40,7 @@ export class HomeComponent {
     link?: string;
     action?: () => void;
   }[] = [];
+  handleLogout: () => void;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
@@ -48,6 +52,8 @@ export class HomeComponent {
     this.mobileQuery.addEventListener('change', this._mobileQueryListener);
 
     this.isMobile = this.mobileQuery.matches;
+
+    this.handleLogout = this.userService.handleLogout.bind(this.userService);
 
     this.navItems = [
       {
@@ -72,13 +78,17 @@ export class HomeComponent {
       {
         name: 'Logout',
         icon: 'logout',
-        action: this.userService.handleLogout.bind(this.userService),
+        action: this.handleLogout,
       },
     ];
   }
 
   toggleSideNav() {
     this.isNavOpen = !this.isNavOpen;
+  }
+
+  toggleProfile() {
+    this.isProfileOpen = !this.isProfileOpen;
   }
 
   ngOnDestroy() {

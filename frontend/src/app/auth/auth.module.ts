@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 import { RouterModule } from '@angular/router';
 import { routes } from './auth.routes';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [LoginComponent, SignUpComponent],
@@ -18,6 +19,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     RouterModule.forChild(routes),
   ],
   exports: [],

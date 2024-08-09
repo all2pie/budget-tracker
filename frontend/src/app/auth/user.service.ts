@@ -35,4 +35,20 @@ export class UserService extends BaseService {
   getProfile() {
     return this.get<User>('', { showError: false });
   }
+
+  getUserProfile(id: string) {
+    return this.get<User>(id);
+  }
+
+  getAllUsers() {
+    return this.get<User[]>('allUsers');
+  }
+
+  updateUserProfile(id: string, data: Partial<User>) {
+    return this.patch<User>(id, data);
+  }
+
+  deleteUser(id: string) {
+    return this.delete(id);
+  }
 }

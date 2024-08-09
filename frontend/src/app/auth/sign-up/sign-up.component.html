@@ -9,10 +9,22 @@
     <div class="subTitle">Sign in to continue to Budget Tracker</div>
 
     <form [formGroup]="form">
+      <div class="form-fields">
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" type="text" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" type="text" />
+        </mat-form-field>
+      </div>
+
       <div>
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" type="email" />
+          <mat-icon matSuffix>mail_outline</mat-icon>
         </mat-form-field>
       </div>
 
@@ -20,11 +32,31 @@
         <mat-form-field>
           <mat-label>Password</mat-label>
           <input matInput formControlName="password" type="password" />
+          <mat-icon matSuffix>visibility_outline</mat-icon>
         </mat-form-field>
       </div>
 
-      <button mat-flat-button [disabled]="form.invalid" (click)="handleLogin()">
-        SIGN Up
+      <div>
+        <mat-form-field>
+          <mat-label>Confirm Password</mat-label>
+          <input matInput formControlName="confirmPassword" type="password" />
+          <mat-icon matSuffix>visibility_outline</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Budget Limit</mat-label>
+          <input matInput formControlName="budget" type="number" />
+        </mat-form-field>
+      </div>
+
+      <button
+        mat-flat-button
+        [disabled]="form.invalid"
+        (click)="handleSignup()"
+      >
+        SIGN UP
       </button>
 
       <div class="alternateAction">

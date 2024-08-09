@@ -1,4 +1,8 @@
-<div class="container" [class.is-mobile]="isMobile">
+<div
+  class="container"
+  [class.is-mobile]="isMobile"
+  (click)="isProfileOpen = false"
+>
   <div class="side-nav" [class.isNavClosed]="!isNavOpen">
     <div class="branding">
       <img src="logo.svg" alt="logo" />
@@ -28,13 +32,45 @@
       </button>
 
       <div class="icons">
-        <mat-icon>notifications</mat-icon>
-        <mat-icon>account_circle</mat-icon>
+        <button mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
+
+        <img
+          src="avatar.png"
+          alt="Avatar"
+          (click)="toggleProfile(); $event.stopPropagation()"
+        />
       </div>
     </mat-toolbar>
 
     <div class="wrapper">
       <router-outlet></router-outlet>
     </div>
+  </div>
+</div>
+
+<div class="profile-dropdown" *ngIf="isProfileOpen">
+  <div class="details">
+    <img src="avatar.png" alt="Avatar" />
+
+    <div class="text">
+      <div class="name">{{ user.firstName + " " + user.lastName }}</div>
+      <div class="email">{{ user.email }}</div>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="actions">
+    <button mat-button>
+      <mat-icon>account_circle</mat-icon>
+      Profile
+    </button>
+
+    <button mat-button (click)="handleLogout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
   </div>
 </div>

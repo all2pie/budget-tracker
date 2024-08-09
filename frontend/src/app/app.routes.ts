@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './common/guards/auth.guard';
-import { ExpensesComponent } from './expenses/expenses.component';
+import { ExpensesComponent } from './expense/expenses/expenses.component';
+import { AnalysisComponent } from './analysis/analysis.component';
+import { UsersComponent } from './user/users/users.component';
+import { Role } from './common/types/user.interface';
 
 export const routes: Routes = [
   {
@@ -11,6 +14,17 @@ export const routes: Routes = [
       {
         path: 'expenses',
         component: ExpensesComponent,
+      },
+      {
+        path: 'analysis',
+        component: AnalysisComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        data: {
+          roles: [Role.Admin],
+        },
       },
       {
         path: '',
