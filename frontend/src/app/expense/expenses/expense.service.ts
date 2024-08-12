@@ -22,12 +22,16 @@ export class ExpenseService extends BaseService {
     return this.get<Expense>(id);
   }
 
-  getAllExpenses() {
-    return this.get<Expense[]>('');
+  getAllExpenses(queryParams = '') {
+    return this.get<{ data: Expense[]; metadata: { total: number } }>(
+      '?' + queryParams
+    );
   }
 
-  getAllExpensesForAdmin() {
-    return this.get<Expense[]>('allUsersExpenses');
+  getAllExpensesForAdmin(queryParams = '') {
+    return this.get<{ data: Expense[]; metadata: { total: number } }>(
+      'allUsersExpenses?' + queryParams
+    );
   }
 
   deleteExpense(id: string) {

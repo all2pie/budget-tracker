@@ -1,6 +1,6 @@
 <app-header title="Users"></app-header>
 
-<table mat-table #table [dataSource]="users">
+<table mat-table #table [dataSource]="dataSource">
   <ng-container matColumnDef="firstName">
     <th mat-header-cell *matHeaderCellDef>First Name</th>
     <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
@@ -19,10 +19,18 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let row">
-      <button mat-icon-button (click)="openDialogue(row.id, 'delete')">
+      <button
+        mat-icon-button
+        (click)="openDialogue(row.id, 'delete')"
+        [style.color]="'#FF5771'"
+      >
         <mat-icon>delete_outline</mat-icon>
       </button>
-      <button mat-icon-button (click)="openDialogue(row.id, 'update')">
+      <button
+        mat-icon-button
+        (click)="openDialogue(row.id, 'update')"
+        [style.color]="'#7539FF'"
+      >
         <mat-icon>edit_outline</mat-icon>
       </button>
     </td>
@@ -31,3 +39,10 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="10"
+  showFirstLastButtons
+>
+</mat-paginator>

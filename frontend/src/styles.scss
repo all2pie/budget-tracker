@@ -18,6 +18,10 @@
   --mdc-filled-button-container-shape: 4px;
   --mdc-outlined-button-container-shape: 4px;
   --mdc-dialog-container-shape: 8px;
+  --mat-table-row-item-outline-color: #dde4f0;
+  --mdc-filled-text-field-container-color: #eff4fb;
+  // --mdc-filled-text-field-label-text-color: #2b2b2b;
+  // --mdc-filled-text-field-input-text-color: #626262;
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
@@ -44,9 +48,36 @@ a {
 }
 
 .mat-mdc-table {
-  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0px 4px 14px 0px #00000014;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+
+  .mat-mdc-header-cell {
+    color: #2b2b2b;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.mat-mdc-paginator {
+  border-top: 1px solid #dde4f0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+// Removes the underline form form field
+.mdc-line-ripple {
+  display: none;
+}
+
+.mdc-text-field--filled {
+  border-bottom-right-radius: var(
+    --mdc-filled-text-field-container-shape
+  ) !important;
+  border-bottom-left-radius: var(
+    --mdc-filled-text-field-container-shape
+  ) !important;
 }
 
 .form-fields {

@@ -6,21 +6,26 @@
 
     <mat-form-field>
       <mat-label>Range</mat-label>
-      <mat-select>
-        <mat-option value="lastMonth">Last Month</mat-option>
-        <mat-option value="last6Months">Last 6 Months</mat-option>
-        <mat-option value="last12Months">Last 12 Months</mat-option>
+      <mat-select (valueChange)="dateRangeChanged($event)">
+        <mat-option value="1">Last Month</mat-option>
+        <mat-option value="6">Last 6 Months</mat-option>
+        <mat-option value="12">Last 12 Months</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <ngx-charts-line-chart
-    [animations]="true"
-    [legend]="true"
-    legendTitle=""
-    [yAxis]="true"
-    [xAxis]="true"
-    [results]="data"
-  >
-  </ngx-charts-line-chart>
+  <div class="chart-wrapper">
+    <div class="chart">
+      <ngx-charts-line-chart
+        [animations]="true"
+        [legend]="true"
+        legendTitle=""
+        [yAxis]="true"
+        [xAxis]="true"
+        [results]="data"
+        [autoScale]="true"
+      >
+      </ngx-charts-line-chart>
+    </div>
+  </div>
 </div>

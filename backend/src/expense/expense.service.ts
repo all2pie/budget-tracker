@@ -20,7 +20,7 @@ export class ExpenseService {
     return this.model.findById(id).orFail(new NotFoundException('Invalid id'));
   }
 
-  getAll(query, userId?: string) {
+  async getAll(query, userId?: string) {
     const mongoQuery = aqp(query);
 
     const conditions = mongoQuery.filter;
@@ -29,13 +29,23 @@ export class ExpenseService {
 
     const dbQuery = this.model.find(conditions, null, {
       sort: mongoQuery.sort,
+      limit: mongoQuery.limit,
+      skip: mongoQuery.skip,
     });
 
     if (!userId) {
       dbQuery.populate('userId');
     }
 
-    return dbQuery;
+    const total = await dbQuery.clone().skip(0).limit(null).countDocuments();
+    const res = await dbQuery;
+
+    return {
+      data: res,
+      metadata: {
+        total,
+      },
+    };
   }
 
   async add(data: AddExpenseDto, userId: string) {

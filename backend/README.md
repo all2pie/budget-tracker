@@ -30,12 +30,13 @@
 
 ### Libraries
 
-| Name            | Use Case                       |
-| --------------- | ------------------------------ |
-| argon2          | For hashing passwords          |
-| class-validator | For handling validations       |
-| swagger         | For creating API documentation |
-| jwt             | For handling json web tokens   |
+| Name             | Use Case                                          |
+| ---------------- | ------------------------------------------------- |
+| argon2           | For hashing passwords                             |
+| class-validator  | For handling validations                          |
+| swagger          | For creating API documentation                    |
+| jwt              | For handling json web tokens                      |
+| api-query-params | To convert request query params to mongoose query |
 
 ## Future Improvements
 

@@ -5,6 +5,7 @@ import { User } from '../user.model';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Role } from 'src/common/types/user-type.enum';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import aqp from 'api-query-params';
 
 @Injectable()
 export class ProfileService {
@@ -29,8 +30,18 @@ export class ProfileService {
     };
   }
 
-  getAllUsers() {
-    return this.model.find({ role: Role.User }, { password: 0 });
+  getAllUsers(query) {
+    const mongoQuery = aqp(query, { blacklist: ['password'] });
+
+    return this.model.find(
+      { role: Role.User, ...mongoQuery.filter },
+      { password: 0 },
+      {
+        sort: mongoQuery.sort,
+        limit: mongoQuery.limit,
+        skip: mongoQuery.skip,
+      },
+    );
   }
 
   async deleteUser(userId: string) {

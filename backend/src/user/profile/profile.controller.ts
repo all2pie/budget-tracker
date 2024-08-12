@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserId } from 'src/common/decorators/user.decorator';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -19,8 +27,8 @@ export class ProfileController {
 
   @Roles(Role.Admin)
   @Get('allUsers')
-  getAllUsers() {
-    return this.service.getAllUsers();
+  getAllUsers(@Query() query) {
+    return this.service.getAllUsers(query);
   }
 
   @Roles(Role.Admin)

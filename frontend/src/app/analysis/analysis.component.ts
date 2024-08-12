@@ -29,18 +29,26 @@ export class AnalysisComponent implements OnInit {
 
   constructor(private service: ExpenseService) {}
 
-  async ngOnInit() {
+  async ngOnInit(queryParams = '') {
     const res = isAdmin()
-      ? await this.service.getAllExpensesForAdmin()
-      : await this.service.getAllExpenses();
+      ? await this.service.getAllExpensesForAdmin(queryParams)
+      : await this.service.getAllExpenses(queryParams);
 
     if (res) {
-      this.data[0].series = res.map((expense) => ({
+      this.data[0].series = res.data.map((expense) => ({
         name: new Date(expense.date),
         value: expense.price,
       }));
 
       this.data = [...this.data];
     }
+  }
+
+  dateRangeChanged(monthsStr: string) {
+    const months = parseInt(monthsStr);
+    const pastMonths = new Date();
+    pastMonths.setMonth(pastMonths.getMonth() - months);
+
+    this.ngOnInit(`date>=${pastMonths.toISOString()}`);
   }
 }

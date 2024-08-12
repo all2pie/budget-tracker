@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HeaderComponent } from '../../common/components/header/header.component';
 import { UserService } from '../../auth/user.service';
 import { User } from '../../common/types/user.interface';
 import { UserDialogComponent } from '../user-dialog/user-dialog.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-users',
@@ -22,20 +23,27 @@ import { UserDialogComponent } from '../user-dialog/user-dialog.component';
     MatButtonModule,
     MatProgressBarModule,
     MatDialogModule,
+    MatPaginatorModule,
     CommonModule,
   ],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, AfterViewInit {
   displayedColumns = ['firstName', 'lastName', 'email', 'actions'];
-  users: User[] = [];
+
+  dataSource = new MatTableDataSource<User>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private service: UserService, private dialog: MatDialog) {}
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   async ngOnInit() {
     const res = await this.service.getAllUsers();
 
     if (res) {
-      this.users = res;
+      this.dataSource.data = res;
     }
   }
 

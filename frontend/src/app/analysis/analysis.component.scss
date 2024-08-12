@@ -8,11 +8,17 @@
     display: flex;
     justify-content: space-between;
     background-color: #f7f7f7;
+    padding: 10px;
+    padding-bottom: 0;
 
     .name {
       padding: 14px;
       font-size: 16px;
       font-weight: 600;
     }
+  }
+
+  .chart-wrapper {
+    padding: 18px;
   }
 }

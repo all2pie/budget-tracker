@@ -3,3 +3,26 @@
   align-items: center;
   gap: 12px;
 }
+
+.table-header {
+  background-color: #f7f7f7 !important;
+  padding-top: 10px;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
