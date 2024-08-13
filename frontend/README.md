@@ -41,3 +41,4 @@ Run `npm start`
 * Add a loader/spinner
 * Improve code reuse in base http service
 * Improve handle table config and use that for tables
+* Handle success error and info messages in Toast/Snackbar service
