@@ -71,7 +71,7 @@ describe('ExpensesComponent', () => {
       };
 
     const req = httpTesting.expectOne(
-      `${BaseService.baseUrl}expense/?limit=10&skip=0`
+      `${BaseService.baseUrl}/expense/?limit=10&skip=0`
     );
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
@@ -88,7 +88,7 @@ describe('ExpensesComponent', () => {
   describe('Filters', () => {
     it('search should work correctly', async () => {
       const initialReq = httpTesting.expectOne(
-        `${BaseService.baseUrl}expense/?limit=10&skip=0`
+        `${BaseService.baseUrl}/expense/?limit=10&skip=0`
       );
       initialReq.flush({
         data: expensesMock,
@@ -118,7 +118,7 @@ describe('ExpensesComponent', () => {
       };
 
       const req = httpTesting.expectOne(
-        `${BaseService.baseUrl}expense/?limit=10&skip=0&title=%2F3%2Fi`
+        `${BaseService.baseUrl}/expense/?limit=10&skip=0&title=%2F3%2Fi`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -135,7 +135,7 @@ describe('ExpensesComponent', () => {
   describe('Sorting', () => {
     it('should sort properly', async () => {
       const initialReq = httpTesting.expectOne(
-        `${BaseService.baseUrl}expense/?limit=10&skip=0`
+        `${BaseService.baseUrl}/expense/?limit=10&skip=0`
       );
       initialReq.flush({
         data: expensesMock,
@@ -163,7 +163,7 @@ describe('ExpensesComponent', () => {
       await fixture.whenStable();
 
       const req = httpTesting.expectOne(
-        `${BaseService.baseUrl}expense/?limit=10&skip=0&sort=-price`
+        `${BaseService.baseUrl}/expense/?limit=10&skip=0&sort=-price`
       );
       req.flush({
         data: expensesMock.sort((a, b) => b.price - a.price),

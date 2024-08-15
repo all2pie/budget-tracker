@@ -9,15 +9,25 @@ import { RolesGuard } from './common/guards/roles.guard';
 import { NotificationModule } from './notification/notification.module';
 import { addIdField, newDocumentOnUpdate } from './common/db/mongoose.plugins';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Config, config } from './config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/budget-tracker', {
-      connectionFactory: (conn) => {
-        conn.plugin(addIdField);
-        conn.plugin(newDocumentOnUpdate);
-        return conn;
-      },
+    ConfigModule.forRoot({
+      load: [() => config],
+      isGlobal: true,
+    }),
+    MongooseModule.forRootAsync({
+      useFactory: async (configService: ConfigService<Config>) => ({
+        uri: configService.get('mongoDbUri', { infer: true }),
+        connectionFactory: (conn) => {
+          conn.plugin(addIdField);
+          conn.plugin(newDocumentOnUpdate);
+          return conn;
+        },
+      }),
+      inject: [ConfigService],
     }),
     UserModule,
     ExpenseModule,

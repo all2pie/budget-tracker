@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
 import { SnackBarService } from './snack-bar.service';
+import { environment } from '../../../environments/environment';
 
 interface Config {
   throwError?: boolean;
@@ -10,14 +11,14 @@ interface Config {
 
 @Injectable()
 export class BaseService {
-  static baseUrl = 'http://localhost:3000/';
+  static baseUrl = environment.apiUrl;
   protected modulePath = '';
   private http = inject(HttpClient);
   private snackBar = inject(SnackBarService);
 
   private getUrl(path: string) {
     if (this.modulePath) {
-      return BaseService.baseUrl + this.modulePath + '/' + path;
+      return BaseService.baseUrl + '/' + this.modulePath + '/' + path;
     }
 
     return BaseService.baseUrl + path;

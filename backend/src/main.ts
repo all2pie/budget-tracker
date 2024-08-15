@@ -3,9 +3,13 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
+import { ConfigService } from '@nestjs/config';
+import { Config } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService<Config>);
 
   app.enableCors({
     origin: 'http://localhost:4200',
@@ -30,6 +34,9 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
+  await app.listen(
+    configService.get('port', { infer: true }),
+    configService.get('host', { infer: true }),
+  );
 }
 bootstrap();
