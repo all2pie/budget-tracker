@@ -148,26 +148,36 @@ describe('ExpensesComponent', () => {
         'mat-select[formControlName="sort"]'
       );
 
-      console.log('sortSelect', sortSelect);
       sortSelect.click();
+
+      fixture.detectChanges();
+
+      const option = document.querySelector(
+        'mat-option[ng-reflect-value="-price"]'
+      ) as HTMLElement;
+
+      option.click();
+
+      expect(component.fg.value.sort).toBe('-price');
+
+      await fixture.whenStable();
+
+      const req = httpTesting.expectOne(
+        `${BaseService.baseUrl}expense/?limit=10&skip=0&sort=-price`
+      );
+      req.flush({
+        data: expensesMock.sort((a, b) => b.price - a.price),
+        metadata: {
+          total: 7,
+        },
+      });
 
       fixture.detectChanges();
       await fixture.whenStable();
 
-      const option = fixture.nativeElement.querySelector(
-        // 'mat-option[ng-reflect-value="-price"]'
-        'mat-option'
-      );
-      console.log('option', option);
-
-      // option.click();
-      fixture.detectChanges();
-
-      // expect(component.fg.value.sort).toBe('-price');
+      expect(component.dataSource.data[0].price).toBe(7);
 
       TestBed.inject(HttpTestingController).verify();
-
-      expect();
     });
   });
 });
