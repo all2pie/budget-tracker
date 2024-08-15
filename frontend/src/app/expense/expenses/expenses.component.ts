@@ -44,7 +44,7 @@ import { ExpenseService } from './expense.service';
 })
 export class ExpensesComponent implements OnInit, AfterViewInit {
   fg: FormGroup;
-  isAdmin = isAdmin();
+  isAdmin = isAdmin;
   displayedColumns = ['expense', 'expenditure', 'price', 'date', 'actions'];
   sortOptions = {
     '-price': 'Price: Highest to lowest',
@@ -80,7 +80,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         this.loadData();
       });
 
-    if (this.isAdmin) {
+    if (this.isAdmin()) {
       this.displayedColumns[this.displayedColumns.length - 1] = 'user';
     }
   }
@@ -117,14 +117,14 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   async loadData() {
     const queryParams = this.buildQueryParams().toString();
 
-    const res = this.isAdmin
+    const res = this.isAdmin()
       ? await this.service.getAllExpensesForAdmin(queryParams)
       : await this.service.getAllExpenses(queryParams);
 
     if (res) {
       this.total = res.metadata.total;
       this.dataSource.data = res.data.map((expense) => {
-        const budget = this.isAdmin
+        const budget = this.isAdmin()
           ? (expense.userId as unknown as { budget: number }).budget
           : user()!.budget;
 

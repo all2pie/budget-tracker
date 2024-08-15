@@ -10,17 +10,17 @@ interface Config {
 
 @Injectable()
 export class BaseService {
-  private baseUrl = 'http://localhost:3000/';
+  static baseUrl = 'http://localhost:3000/';
   protected modulePath = '';
   private http = inject(HttpClient);
   private snackBar = inject(SnackBarService);
 
   private getUrl(path: string) {
     if (this.modulePath) {
-      return this.baseUrl + this.modulePath + '/' + path;
+      return BaseService.baseUrl + this.modulePath + '/' + path;
     }
 
-    return this.baseUrl + path;
+    return BaseService.baseUrl + path;
   }
 
   private async handleHttpObservable<R>(req: Observable<R>, config?: Config) {

@@ -5,6 +5,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { user } from '../common/state/user.state';
 import { Role } from '../common/types/user.interface';
+import { userMock } from '../common/mocks/user.mock';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -20,13 +21,7 @@ describe('ProfileComponent', () => {
       ],
     }).compileComponents();
 
-    user.set({
-      firstName: 'Mr',
-      lastName: 'Tester',
-      budget: 19000,
-      email: 'tester@gmail.com',
-      role: Role.User,
-    });
+    user.set(userMock);
   });
 
   beforeEach(() => {
