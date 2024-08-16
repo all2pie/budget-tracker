@@ -14,7 +14,7 @@
         class="item"
         (click)="nav.action ? nav.action() : null"
       >
-        <mat-icon [fontIcon]="nav.icon"></mat-icon>
+        <mat-icon [fontIcon]="nav.icon" class="icon"></mat-icon>
         <span *ngIf="isNavOpen">{{ nav.name }}</span>
       </a>
       }
