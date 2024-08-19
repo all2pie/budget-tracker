@@ -30,13 +30,14 @@
 
 ### Libraries
 
-| Name             | Use Case                                          |
-| ---------------- | ------------------------------------------------- |
-| argon2           | For hashing passwords                             |
-| class-validator  | For handling validations                          |
-| swagger          | For creating API documentation                    |
-| jwt              | For handling json web tokens                      |
-| api-query-params | To convert request query params to mongoose query |
+| Name                                                | Use Case                                                   |
+| --------------------------------------------------- | ---------------------------------------------------------- |
+| argon2                                              | For hashing passwords                                      |
+| class-validator                                     | For handling validations                                   |
+| swagger                                             | For creating API documentation                             |
+| jwt                                                 | For handling json web tokens                               |
+| api-query-params                                    | To convert request query params to mongoose query          |
+| [nestjs-cls](https://papooch.github.io/nestjs-cls/) | To get a global request scoped store accessible everywhere |
 
 ## Future Improvements
 

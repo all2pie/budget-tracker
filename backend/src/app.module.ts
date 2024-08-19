@@ -1,22 +1,36 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './user/user.module';
-import { ExpenseModule } from './expense/expense.module';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MongooseModule } from '@nestjs/mongoose';
+import { randomUUID } from 'crypto';
+import { Request } from 'express';
+import { ClsMiddleware, ClsModule } from 'nestjs-cls';
+import { AppController } from './app.controller';
+import { addIdField, newDocumentOnUpdate } from './common/db/mongoose.plugins';
 import { AuthGuard } from './common/guards/auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
-import { NotificationModule } from './notification/notification.module';
-import { addIdField, newDocumentOnUpdate } from './common/db/mongoose.plugins';
-import { EventEmitterModule } from '@nestjs/event-emitter';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoggerModule } from './common/utils/logger/logger.module';
 import { Config, config } from './config';
+import { ExpenseModule } from './expense/expense.module';
+import { NotificationModule } from './notification/notification.module';
+import { UserModule } from './user/user.module';
+import { LoggerMiddleware } from './common/middleware/logging.middleware';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [() => config],
       isGlobal: true,
+    }),
+    ClsModule.forRoot({
+      global: true,
+      middleware: {
+        mount: true,
+        generateId: true,
+        idGenerator: (req: Request) =>
+          (req.headers['X-Request-Id'] as string) ?? randomUUID().toString(),
+      },
     }),
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigService<Config>) => ({
@@ -35,6 +49,7 @@ import { Config, config } from './config';
     EventEmitterModule.forRoot({
       ignoreErrors: false,
     }),
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
@@ -48,4 +63,9 @@ import { Config, config } from './config';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ClsMiddleware).forRoutes('*');
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
