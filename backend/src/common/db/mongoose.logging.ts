@@ -7,7 +7,7 @@ export function addLoggingToSchema(schema: Schema) {
   const modelName: string = schemaNames.get(schema);
 
   schema.pre('save', function (next) {
-    Logger.db(`Pre-save: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Pre-save', {
       action: 'save',
       document: this.toObject({ getters: true }),
     });
@@ -15,14 +15,14 @@ export function addLoggingToSchema(schema: Schema) {
   });
 
   schema.post('save', function (doc) {
-    Logger.db(`Post-save: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Post-save', {
       action: 'save',
       document: doc.toObject({ getters: true }),
     });
   });
 
   schema.pre('deleteOne', function (next) {
-    Logger.db(`Pre-remove: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Pre-remove', {
       action: 'remove',
       query: this.getQuery(),
     });
@@ -30,8 +30,37 @@ export function addLoggingToSchema(schema: Schema) {
   });
 
   schema.post('deleteOne', function (doc) {
-    Logger.db(`Post-remove: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Post-remove', {
       action: 'remove',
+      document: doc ? doc.toObject({ getters: true }) : null,
+    });
+  });
+
+  schema.pre('deleteMany', function (next) {
+    Logger.db(`${modelName}`, 'Pre-deleteMany', {
+      action: 'deleteMany',
+      query: this.getQuery(),
+    });
+    next();
+  });
+
+  schema.post('deleteMany', function (result) {
+    Logger.db(`${modelName}`, 'Post-deleteMany', {
+      action: 'deleteMany',
+      result,
+    });
+  });
+
+  schema.pre('findOneAndDelete', function () {
+    Logger.db(`${modelName}`, 'Pre-findOneAndDelete', {
+      action: 'findOneAndDelete',
+      query: this.getQuery(),
+    });
+  });
+
+  schema.post('findOneAndDelete', function (doc) {
+    Logger.db(`${modelName}`, 'Post-findOneAndDelete', {
+      action: 'findOneAndDelete',
       document: doc ? doc.toObject({ getters: true }) : null,
     });
   });
@@ -39,74 +68,79 @@ export function addLoggingToSchema(schema: Schema) {
   schema.pre(['findOneAndUpdate', 'updateOne'], function () {
     const query = this.getQuery();
     const update = this.getUpdate();
-    Logger.db(`Pre-update: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Pre-update', {
       action: 'update',
       query,
-      update: JSON.stringify(update),
+      update: JSON.stringify(update, null, 2),
     });
-    this.setOptions({ new: true }); // Ensure the updated document is returned
   });
 
   schema.post(['findOneAndUpdate', 'updateOne'], function (doc) {
-    Logger.db(`Post-update: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Post-update', {
       action: 'update',
       document: doc ? doc.toObject({ getters: true }) : null,
     });
   });
 
   schema.pre('find', function () {
-    Logger.db(`Pre-find: ${modelName}`, 'Schema Hook', {
+    const queryOptions = this.getOptions();
+    Logger.db(`${modelName}`, 'Pre-find', {
       action: 'find',
       query: this.getQuery(),
+      options: {
+        skip: queryOptions.skip,
+        limit: queryOptions.limit,
+        select: queryOptions.select,
+      },
     });
   });
 
   schema.post('find', function (docs) {
-    Logger.db(`Post-find: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Post-find', {
       action: 'find',
       documents: docs.map((doc: any) => doc.toObject({ getters: true })),
     });
   });
 
   schema.pre('findOne', function () {
-    Logger.db(`Pre-findOne: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Pre-findOne', {
       action: 'findOne',
       query: this.getQuery(),
     });
   });
 
   schema.post('findOne', function (doc) {
-    Logger.db(`Post-findOne: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Post-findOne', {
       action: 'findOne',
       document: doc ? doc.toObject({ getters: true }) : null,
     });
   });
 
   schema.pre('updateMany', function () {
-    Logger.db(`Pre-updateMany: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Pre-updateMany', {
       action: 'updateMany',
       query: this.getQuery(),
-      update: JSON.stringify(this.getUpdate()),
+      update: JSON.stringify(this.getUpdate(), null, 2),
     });
   });
 
   schema.post('updateMany', function (result) {
-    Logger.db(`Post-updateMany: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Post-updateMany', {
       action: 'updateMany',
       result,
     });
   });
 
   schema.pre('updateOne', function () {
-    Logger.db(`Pre-updateOne: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Pre-updateOne', {
       action: 'updateOne',
       query: this.getQuery(),
-      update: JSON.stringify(this.getUpdate()),
+      update: JSON.stringify(this.getUpdate(), null, 2),
     });
   });
 
   schema.post('updateOne', function (result) {
-    Logger.db(`Post-updateOne: ${modelName}`, 'Schema Hook', {
+    Logger.db(`${modelName}`, 'Post-updateOne', {
       action: 'updateOne',
       result,
     });
