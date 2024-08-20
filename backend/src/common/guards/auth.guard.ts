@@ -49,7 +49,7 @@ export class AuthGuard implements CanActivate {
       this.cls.set('user', payload);
       this.cls.set('userId', payload.id);
 
-      Logger.debug(payload.id, 'UserId');
+      Logger.http(payload.id, 'UserId');
     } catch {
       throw new UnauthorizedException();
     }
