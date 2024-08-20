@@ -14,6 +14,11 @@ export class Logger {
     Logger.logger.info(message, context, data);
   }
 
+  // For Terminus health check errors
+  error(message: string, context?: string, data?: any) {
+    Logger.logger.error(message, context, data);
+  }
+
   static fatal(message: string, context?: string, data?: any) {
     Logger.logger.fatal(message, context, data);
   }

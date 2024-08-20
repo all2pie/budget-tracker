@@ -16,6 +16,7 @@ import { ExpenseModule } from './expense/expense.module';
 import { NotificationModule } from './notification/notification.module';
 import { UserModule } from './user/user.module';
 import { LoggerMiddleware } from './common/middleware/logging.middleware';
+import { TerminusModule } from '@nestjs/terminus';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { LoggerMiddleware } from './common/middleware/logging.middleware';
       ignoreErrors: false,
     }),
     LoggerModule,
+    TerminusModule,
   ],
   controllers: [AppController],
   providers: [
