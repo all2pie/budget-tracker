@@ -1,13 +1,19 @@
-import { BaseLogger, LogLevels } from './logger.interface';
-import { createLogger, format, Logger, transports } from 'winston';
+import {
+  BaseLogger,
+  LogLevelColorMap,
+  LogLevelKeys,
+  LogLevels,
+} from './logger.types';
+import { createLogger, format, Logger, transports, addColors } from 'winston';
 
 export class WinstonLogger implements BaseLogger {
   private logger: Logger;
 
   constructor() {
     this.logger = createLogger({
-      level: 'debug',
+      level: 'db',
       levels: LogLevels,
+
       transports: [
         new transports.Console({
           format: format.combine(
@@ -21,12 +27,17 @@ export class WinstonLogger implements BaseLogger {
         }),
       ],
     });
+
+    addColors(LogLevelColorMap);
   }
 
-  log(level: keyof typeof LogLevels, message: string, data?: any): void {
+  log(level: LogLevelKeys, message: string, data?: any): void {
     this.logger.log(level.toString(), message, data);
   }
 
+  db(message: string, data?: any): void {
+    this.log('db', message, data);
+  }
   debug(message: string, data?: any): void {
     this.log('debug', message, data);
   }

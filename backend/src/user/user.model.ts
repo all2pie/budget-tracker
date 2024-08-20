@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Role } from '../common/types/user-type.enum';
 import { IsEmail, IsNumber, IsString, Length, Max, Min } from 'class-validator';
+import { schemaNames } from 'src/common/db/mongoose.logging';
 
 @Schema({ timestamps: true })
 export class User {
@@ -34,3 +35,4 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+schemaNames.set(UserSchema, User.name);

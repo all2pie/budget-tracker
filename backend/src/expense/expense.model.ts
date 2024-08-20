@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsDateString, IsNumber, IsString, Length, Min } from 'class-validator';
 import { Types } from 'mongoose';
+import { schemaNames } from 'src/common/db/mongoose.logging';
 import { User } from 'src/user/user.model';
 
 @Schema({ timestamps: true })
@@ -24,3 +25,4 @@ export class Expense {
 }
 
 export const ExpenseSchema = SchemaFactory.createForClass(Expense);
+schemaNames.set(ExpenseSchema, Expense.name);

@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { NotificationType } from './notification-type.enum';
 import { User } from 'src/common/decorators/user.decorator';
 import { Types } from 'mongoose';
+import { schemaNames } from 'src/common/db/mongoose.logging';
 
 @Schema({ timestamps: true })
 export class Notification {
@@ -22,3 +23,4 @@ export class Notification {
 }
 
 export const NotificationSchema = SchemaFactory.createForClass(Notification);
+schemaNames.set(NotificationSchema, Notification.name);

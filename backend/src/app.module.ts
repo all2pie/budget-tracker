@@ -17,6 +17,7 @@ import { NotificationModule } from './notification/notification.module';
 import { UserModule } from './user/user.module';
 import { LoggerMiddleware } from './common/middleware/logging.middleware';
 import { TerminusModule } from '@nestjs/terminus';
+import { addLoggingToSchema } from './common/db/mongoose.logging';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { TerminusModule } from '@nestjs/terminus';
         connectionFactory: (conn) => {
           conn.plugin(addIdField);
           conn.plugin(newDocumentOnUpdate);
+          conn.plugin(addLoggingToSchema);
           return conn;
         },
       }),

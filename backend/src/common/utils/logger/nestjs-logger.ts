@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import { WinstonLogger } from './winston-logger';
-import { BaseLogger } from './logger.interface';
+import { BaseLogger, LogLevelKeys } from './logger.types';
 
 @Injectable()
 export class NestjsLogger implements BaseLogger {
@@ -11,7 +11,7 @@ export class NestjsLogger implements BaseLogger {
   ) {}
 
   handleLog(
-    level: keyof BaseLogger,
+    level: LogLevelKeys,
     message: string,
     context?: string,
     data?: any,
@@ -51,6 +51,9 @@ export class NestjsLogger implements BaseLogger {
   }
   debug(message: string, context?: string, data?: any) {
     this.handleLog('debug', message, context, data);
+  }
+  db(message: string, context?: string, data?: any) {
+    this.handleLog('db', message, context, data);
   }
   error(message: string, context?: string, data?: any) {
     this.handleLog('error', message, context, data);

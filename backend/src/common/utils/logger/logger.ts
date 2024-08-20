@@ -35,6 +35,10 @@ export class Logger {
     Logger.logger.debug(message, context, data);
   }
 
+  static db(message: string, context?: string, data?: any) {
+    Logger.logger.db(message, context, data);
+  }
+
   static error(message: string, context?: string, data?: any) {
     Logger.logger.error(message, context, data);
   }
